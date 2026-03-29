@@ -57,6 +57,29 @@ main() {
   run_stage "终端工具安装" install_terminal_tools
   run_stage "Zsh 环境安装" setup_zsh_environment
   run_stage "CC-Switch 安装与同步" setup_cc_switch
+
+  # 下载 login-webdav.sh 到当前目录
+  log_step "下载 WebDAV 登录脚本"
+  local repo="${BOOTSTRAP_GITHUB_REPO:-YancyReal/Yancy-bootstrap}"
+  local ref="${BOOTSTRAP_GITHUB_REF:-main}"
+  local login_script_url="https://raw.githubusercontent.com/${repo}/${ref}/login-webdav.sh"
+  local login_script="${BOOTSTRAP_ROOT}/login-webdav.sh"
+
+  if curl -fsSL "${login_script_url}" -o "${login_script}"; then
+    chmod +x "${login_script}"
+    log_info "已下载 login-webdav.sh 到当前目录"
+  else
+    log_warn "下载 login-webdav.sh 失败"
+  fi
+
+  echo ""
+  echo "========================================"
+  echo "✅ 安装完成!"
+  echo ""
+  echo "请运行以下命令登录坚果云 WebDAV："
+  echo "  ./login-webdav.sh"
+  echo "========================================"
+  echo ""
 }
 
 main "$@"
