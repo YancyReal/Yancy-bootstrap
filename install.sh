@@ -58,16 +58,17 @@ main() {
   run_stage "Zsh 环境安装" setup_zsh_environment
   run_stage "CC-Switch 安装与同步" setup_cc_switch
 
-  # 下载 login-webdav.sh 到当前目录
+  # 下载 login-webdav.sh 到用户当前目录
   log_step "下载 WebDAV 登录脚本"
   local repo="${BOOTSTRAP_GITHUB_REPO:-YancyReal/Yancy-bootstrap}"
   local ref="${BOOTSTRAP_GITHUB_REF:-main}"
   local login_script_url="https://raw.githubusercontent.com/${repo}/${ref}/login-webdav.sh"
-  local login_script="${BOOTSTRAP_ROOT}/login-webdav.sh"
+  local login_script_dir="${PWD:-${HOME}}"
+  local login_script="${login_script_dir}/login-webdav.sh"
 
   if curl -fsSL "${login_script_url}" -o "${login_script}"; then
     chmod +x "${login_script}"
-    log_info "已下载 login-webdav.sh 到当前目录"
+    log_info "已下载 login-webdav.sh 到: ${login_script}"
   else
     log_warn "下载 login-webdav.sh 失败"
   fi
