@@ -14,13 +14,8 @@
 ## 使用方式
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/<your-account>/devbox-bootstrap/main/install.sh | bash
-```
-
-如果仓库已经在本地：
-
-```bash
-cd devbox-bootstrap
+git clone https://github.com/YancyReal/Yancy-bootstrap.git
+cd Yancy-bootstrap
 BOOTSTRAP_WEBDAV_BASE_URL="https://dav.example.com/cc-switch" \
 BOOTSTRAP_WEBDAV_USERNAME="your-user" \
 BOOTSTRAP_WEBDAV_PASSWORD="your-password" \
