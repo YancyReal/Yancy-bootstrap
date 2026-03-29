@@ -81,9 +81,9 @@ setup_cc_switch() {
     return 0
   fi
 
-  # 如果未设置 WebDAV 变量且启用了交互模式，则提示用户输入
-  if [[ -z "${BOOTSTRAP_WEBDAV_BASE_URL}" ]] || [[ -z "${BOOTSTRAP_WEBDAV_USERNAME}" ]] || [[ "${BOOTSTRAP_INTERACTIVE}" == "1" ]]; then
-    if [[ -t 0 ]]; then  # 如果是交互式终端
+  # 如果未设置 WebDAV 变量或启用了交互模式，则提示用户输入
+  if [[ "${BOOTSTRAP_INTERACTIVE}" == "1" ]] || [[ -z "${BOOTSTRAP_WEBDAV_BASE_URL}" ]] || [[ -z "${BOOTSTRAP_WEBDAV_USERNAME}" ]]; then
+    if [[ -t 0 ]] || [[ "${BOOTSTRAP_INTERACTIVE}" == "1" ]]; then  # 交互式终端或强制交互模式
       prompt_cc_switch_webdav
     else
       log_info "未设置 WebDAV 凭据且非交互式终端，跳过 WebDAV 配置"
