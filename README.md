@@ -10,6 +10,7 @@
 - 安装 `cc-switch-cli`
 - 通过 WebDAV 下载 `cc-switch` 配置与 `skills`
 - 安装 `zellij`、`yazi`、`lazygit`
+- 在 Ubuntu 下自动检查 `apt` 官方源，非国内源时切换为清华源
 
 ## 使用方式
 
@@ -40,4 +41,5 @@ BOOTSTRAP_WEBDAV_PASSWORD="your-password" \
 ## 说明
 
 - 第一次完整运行前，请确认目标机器允许 `curl`、`git`、`npm` 正常访问外网。
+- Ubuntu 仅会调整官方 `apt` 源，检测到不是国内镜像时自动切换为清华源，并备份原文件为 `.bootstrap.bak`
 - 本仓库第一版不处理 `~/.ssh`、Git 凭据、`~/.codex/auth.json` 等私密材料。
