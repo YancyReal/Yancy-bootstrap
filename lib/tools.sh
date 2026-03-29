@@ -81,6 +81,11 @@ install_codex() {
 }
 
 install_zellij() {
+  if command -v zellij >/dev/null 2>&1; then
+    log_info "zellij 已安装，跳过"
+    return 0
+  fi
+
   local arch target_pattern
   arch="$(machine_arch)"
 
@@ -94,6 +99,11 @@ install_zellij() {
 }
 
 install_yazi() {
+  if command -v yazi >/dev/null 2>&1; then
+    log_info "yazi 已安装，跳过"
+    return 0
+  fi
+
   local arch target_pattern
   arch="$(machine_arch)"
 
@@ -107,6 +117,11 @@ install_yazi() {
 }
 
 install_lazygit() {
+  if command -v lazygit >/dev/null 2>&1; then
+    log_info "lazygit 已安装，跳过"
+    return 0
+  fi
+
   local arch os_name target_pattern
   arch="$(machine_arch)"
 

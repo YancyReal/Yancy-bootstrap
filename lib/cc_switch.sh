@@ -15,6 +15,7 @@ BOOTSTRAP_INTERACTIVE="${BOOTSTRAP_INTERACTIVE:-0}"
 
 install_cc_switch() {
   if command -v cc-switch >/dev/null 2>&1; then
+    log_info "cc-switch 已安装，跳过"
     return 0
   fi
 
