@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# 保存调用者目录（在任何 cd 之前）
+# 保存调用者目录（在解析参数之前）
 BOOTSTRAP_CALLER_DIR="${PWD}"
 
 # 检测必要命令
@@ -97,9 +97,12 @@ main() {
   mkdir -p "$(dirname "${install_dir}")"
   mv "${extracted_dir}" "${install_dir}"
 
+  # 保存调用者目录
+  local caller_dir="${BOOTSTRAP_CALLER_DIR:-${PWD}}"
+
   echo "==> 执行安装脚本..."
   cd "${install_dir}"
-  exec ./install.sh "$@"
+  exec ./install.sh --caller-dir="${caller_dir}" "$@"
 }
 
 main "$@"

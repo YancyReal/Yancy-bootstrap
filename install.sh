@@ -63,8 +63,18 @@ main() {
   local repo="${BOOTSTRAP_GITHUB_REPO:-YancyReal/Yancy-bootstrap}"
   local ref="${BOOTSTRAP_GITHUB_REF:-main}"
   local login_script_url="https://raw.githubusercontent.com/${repo}/${ref}/login-webdav.sh"
-  local login_script_dir="${BOOTSTRAP_CALLER_DIR:-${PWD}}"
-  local login_script="${login_script_dir}/login-webdav.sh"
+
+  # 解析 --caller-dir 参数
+  local caller_dir="${PWD}"
+  for arg in "$@"; do
+    case "${arg}" in
+      --caller-dir=*)
+        caller_dir="${arg#*=}"
+        ;;
+    esac
+  done
+
+  local login_script="${caller_dir}/login-webdav.sh"
 
   if curl -fsSL "${login_script_url}" -o "${login_script}"; then
     chmod +x "${login_script}"
