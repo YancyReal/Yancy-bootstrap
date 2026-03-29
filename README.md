@@ -14,6 +14,14 @@
 
 ## 使用方式
 
+### 一键安装（推荐）
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/YancyReal/Yancy-bootstrap/main/bootstrap.sh | bash
+```
+
+### 手动克隆
+
 ```bash
 git clone https://github.com/YancyReal/Yancy-bootstrap.git
 cd Yancy-bootstrap
@@ -25,6 +33,12 @@ BOOTSTRAP_WEBDAV_PASSWORD="your-password" \
 
 ## 环境变量
 
+- `BOOTSTRAP_GITHUB_REPO`
+  GitHub 仓库地址，格式为 `account/repo`，默认值为 `YancyReal/Yancy-bootstrap`
+- `BOOTSTRAP_GITHUB_REF`
+  Git 分支或标签，默认为 `main`
+- `BOOTSTRAP_INSTALL_DIR`
+  安装目录，默认为 `~/.local/share/devbox-bootstrap`
 - `BOOTSTRAP_NODE_VERSION`
   选择要安装的 Node 主版本，默认值为 `22`
 - `BOOTSTRAP_WEBDAV_BASE_URL`
