@@ -62,6 +62,6 @@ setup_cc_switch() {
     configure_cc_switch_webdav
     download_cc_switch_state
   else
-    log_info "未设置完整 WebDAV 凭据，可运行 ./login-webdav.sh 进行登录"
+    log_login_webdav_hint
   fi
 }
