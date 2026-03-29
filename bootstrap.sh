@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# 保存调用者目录（在任何 cd 之前）
+BOOTSTRAP_CALLER_DIR="${PWD}"
+
 # 检测必要命令
 check_prerequisites() {
   local missing=()
@@ -95,9 +98,8 @@ main() {
   mv "${extracted_dir}" "${install_dir}"
 
   echo "==> 执行安装脚本..."
-  local current_dir="${PWD}"
   cd "${install_dir}"
-  env "BOOTSTRAP_CALLER_DIR=${current_dir}" exec ./install.sh "$@"
+  exec ./install.sh "$@"
 }
 
 main "$@"
