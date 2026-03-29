@@ -95,8 +95,9 @@ main() {
   mv "${extracted_dir}" "${install_dir}"
 
   echo "==> 执行安装脚本..."
+  local current_dir="${PWD}"
   cd "${install_dir}"
-  exec ./install.sh "$@"
+  env "BOOTSTRAP_CALLER_DIR=${current_dir}" exec ./install.sh "$@"
 }
 
 main "$@"
