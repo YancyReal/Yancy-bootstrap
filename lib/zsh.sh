@@ -72,7 +72,7 @@ set_default_shell() {
     return 0
   fi
 
-  chsh -s "${zsh_path}" "${USER}"
+  chsh -s "${zsh_path}"
 }
 
 setup_zsh_environment() {

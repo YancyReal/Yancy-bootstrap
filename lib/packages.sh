@@ -8,8 +8,8 @@ fi
 readonly BOOTSTRAP_PACKAGES_LOADED=1
 
 APT_UPDATED=0
-TUNA_UBUNTU_MIRROR="https://mirrors.tuna.tsinghua.edu.cn/ubuntu/"
-TUNA_UBUNTU_PORTS_MIRROR="https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/"
+ALIYUN_UBUNTU_MIRROR="https://mirrors.aliyun.com/ubuntu/"
+ALIYUN_UBUNTU_PORTS_MIRROR="https://mirrors.aliyun.com/ubuntu-ports/"
 
 as_root() {
   if [[ "$(id -u)" -eq 0 ]]; then
@@ -92,10 +92,10 @@ replace_ubuntu_mirror_in_source_file() {
 
   temp_file="$(mktemp)"
   sed -E \
-    -e '/^(deb|deb-src)[[:space:]]/ s#https?://[^[:space:]]+/ubuntu-ports/?([[:space:]]|$)#'"${TUNA_UBUNTU_PORTS_MIRROR}"'\1#g' \
-    -e '/^(deb|deb-src)[[:space:]]/ s#https?://[^[:space:]]+/ubuntu/?([[:space:]]|$)#'"${TUNA_UBUNTU_MIRROR}"'\1#g' \
-    -e '/^URIs:/ s#https?://[^[:space:]]+/ubuntu-ports/?([[:space:]]|$)#'"${TUNA_UBUNTU_PORTS_MIRROR}"'\1#g' \
-    -e '/^URIs:/ s#https?://[^[:space:]]+/ubuntu/?([[:space:]]|$)#'"${TUNA_UBUNTU_MIRROR}"'\1#g' \
+    -e '/^(deb|deb-src)[[:space:]]/ s#https?://[^[:space:]]+/ubuntu-ports/?([[:space:]]|$)#'"${ALIYUN_UBUNTU_PORTS_MIRROR}"'\1#g' \
+    -e '/^(deb|deb-src)[[:space:]]/ s#https?://[^[:space:]]+/ubuntu/?([[:space:]]|$)#'"${ALIYUN_UBUNTU_MIRROR}"'\1#g' \
+    -e '/^URIs:/ s#https?://[^[:space:]]+/ubuntu-ports/?([[:space:]]|$)#'"${ALIYUN_UBUNTU_PORTS_MIRROR}"'\1#g' \
+    -e '/^URIs:/ s#https?://[^[:space:]]+/ubuntu/?([[:space:]]|$)#'"${ALIYUN_UBUNTU_MIRROR}"'\1#g' \
     "${source_file}" > "${temp_file}"
 
   if cmp -s "${source_file}" "${temp_file}"; then
@@ -126,7 +126,7 @@ ensure_ubuntu_domestic_mirror() {
       continue
     fi
 
-    log_info "检测到 ${source_file} 未使用国内源，切换为清华源"
+    log_info "检测到 ${source_file} 未使用国内源，切换为阿里源"
     replace_ubuntu_mirror_in_source_file "${source_file}"
   done
 
