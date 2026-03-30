@@ -7,6 +7,8 @@ if [[ -n "${BOOTSTRAP_TOOLS_LOADED:-}" ]]; then
 fi
 readonly BOOTSTRAP_TOOLS_LOADED=1
 
+BOOTSTRAP_OH_MY_TMUX_REPO_URL="https://github.com/gpakosz/.tmux.git"
+
 machine_arch() {
   case "$(uname -m)" in
     x86_64|amd64) printf 'x86_64\n' ;;
@@ -80,6 +82,74 @@ install_codex() {
   require_command codex
 }
 
+install_tmux() {
+  if command -v tmux >/dev/null 2>&1; then
+    log_info "tmux 已安装，跳过"
+    return 0
+  fi
+
+  install_packages tmux
+  require_command tmux
+}
+
+ensure_oh_my_tmux_repo() {
+  local repo_dir="${HOME}/.tmux"
+  local main_config="${repo_dir}/.tmux.conf"
+
+  if [[ -e "${repo_dir}" ]] && [[ ! -d "${repo_dir}" ]]; then
+    die "${repo_dir} 已存在且不是目录"
+  fi
+
+  if [[ -d "${repo_dir}" ]]; then
+    [[ -f "${main_config}" ]] || die "${repo_dir} 已存在但不是 oh-my-tmux 目录"
+    log_info "oh-my-tmux 已安装，跳过仓库下载"
+    return 0
+  fi
+
+  git clone --depth=1 "${BOOTSTRAP_OH_MY_TMUX_REPO_URL}" "${repo_dir}"
+  [[ -f "${main_config}" ]] || die "oh-my-tmux 安装失败，缺少配置文件: ${main_config}"
+}
+
+link_oh_my_tmux_config() {
+  local source_config="${HOME}/.tmux/.tmux.conf"
+  local target_config="${HOME}/.tmux.conf"
+  local current_target
+
+  if [[ -L "${target_config}" ]]; then
+    current_target="$(readlink "${target_config}")"
+    [[ "${current_target}" == "${source_config}" ]] || die "${target_config} 已存在且未指向 oh-my-tmux 配置"
+    return 0
+  fi
+
+  [[ ! -e "${target_config}" ]] || die "${target_config} 已存在，拒绝覆盖"
+  ln -s "${source_config}" "${target_config}"
+}
+
+ensure_oh_my_tmux_local_config() {
+  local source_config="${HOME}/.tmux/.tmux.conf.local"
+  local target_config="${HOME}/.tmux.conf.local"
+
+  [[ -f "${source_config}" ]] || die "缺少 oh-my-tmux 本地配置模板: ${source_config}"
+
+  if [[ -e "${target_config}" ]] || [[ -L "${target_config}" ]]; then
+    log_info "${target_config} 已存在，跳过覆盖"
+    return 0
+  fi
+
+  cp "${source_config}" "${target_config}"
+}
+
+install_oh_my_tmux() {
+  if ! command -v tmux >/dev/null 2>&1; then
+    die "tmux 未安装，请先安装 tmux"
+  fi
+
+  require_command git
+  ensure_oh_my_tmux_repo
+  link_oh_my_tmux_config
+  ensure_oh_my_tmux_local_config
+}
+
 install_zellij() {
   if command -v zellij >/dev/null 2>&1; then
     log_info "zellij 已安装，跳过"
@@ -141,6 +211,8 @@ install_lazygit() {
 }
 
 install_terminal_tools() {
+  install_tmux
+  install_oh_my_tmux
   install_zellij
   install_yazi
   install_lazygit

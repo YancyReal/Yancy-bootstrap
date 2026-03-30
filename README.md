@@ -5,6 +5,7 @@
 ## 覆盖范围
 
 - 安装 `zsh`、`oh-my-zsh`、常用插件
+- 安装 `tmux` 与 `oh-my-tmux`
 - 安装 `Node.js` 与 `npm`
 - 通过 `npm` 安装 `codex`
 - 安装 `cc-switch-cli`
@@ -57,5 +58,6 @@ BOOTSTRAP_WEBDAV_PASSWORD="your-password" \
 ## 说明
 
 - 第一次完整运行前，请确认目标机器允许 `curl`、`git`、`npm` 正常访问外网。
+- 安装 `oh-my-tmux` 时会创建 `~/.tmux`，并链接 `~/.tmux.conf`；若不存在 `~/.tmux.conf.local`，则自动生成一份。
 - Ubuntu 仅会调整官方 `apt` 源，检测到不是国内镜像时自动切换为阿里源，并备份原文件为 `.bootstrap.bak`
 - 本仓库第一版不处理 `~/.ssh`、Git 凭据、`~/.codex/auth.json` 等私密材料。
